@@ -1,7 +1,10 @@
 import puppeteer, { Browser, Page } from 'puppeteer';
+import { ScrapedData } from './types';
+const screenSize = {width: 1920, height: 1080};
 
 export abstract class baseCrawler {
     private options: object;
+    protected scrapedData: ScrapedData[] = [];
 
     constructor(options: object){
         this.options = options;
@@ -12,6 +15,7 @@ export abstract class baseCrawler {
         const browser = await puppeteer.launch(this.options);
         try {
             const _page = await browser.newPage();
+            await _page.setViewport(screenSize);
             await this.crawl(browser, _page);
         } catch (error) {
             console.log('============error=============')
