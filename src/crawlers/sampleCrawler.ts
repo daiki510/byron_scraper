@@ -3,7 +3,7 @@ import { Page } from 'puppeteer';
 import { baseCrawler } from './baseCrawler';
 const options = { headless: true }
 
-export default class TestCrawler extends baseCrawler {
+export default class sampleCrawler extends baseCrawler {
   protected async crawl(_: Browser, page: Page) {
     console.log('============start=============');
     const url = 'https://google.com/';
@@ -13,4 +13,4 @@ export default class TestCrawler extends baseCrawler {
   }
 }
 
-new TestCrawler(options).run();
+new sampleCrawler(options).run();
