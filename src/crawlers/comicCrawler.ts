@@ -51,6 +51,7 @@ export default class comicCrawler extends baseCrawler {
       page.click(this.selector.newChapterInfo),
       page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 10000 })
     ]);
+    //TODO:数値の取得(Utilに定義)
     return {
       title: comicTitle,
       comicUrl: detailPageUrl,

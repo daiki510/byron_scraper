@@ -3,6 +3,7 @@ import { ScrapedData } from './types';
 const screenSize = {width: 1920, height: 1080};
 
 export abstract class baseCrawler {
+    //TODO:オプション機能は別ファイルでおこなう
     private options: object;
     protected scrapedData: ScrapedData[] = [];
 
