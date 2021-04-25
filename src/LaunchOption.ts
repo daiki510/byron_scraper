@@ -5,7 +5,6 @@ export interface Args {
   slowMotion: number;
 }
 
-
 export const args = (): Args =>
   yargs.options({
     headful:    { alias: 'h', type: 'boolean', default: false },
