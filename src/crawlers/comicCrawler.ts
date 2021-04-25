@@ -4,8 +4,8 @@ import { baseCrawler } from './baseCrawler';
 import { ScrapedData } from './types';
 import selector from './comicSelector';
 import ComicList from './comicList';
-import { Utils } from './utils/index';
-const options = { headless: true }
+import { Utils } from '../utils/index';
+// const options = { headless: true }
 
 export default class comicCrawler extends baseCrawler {
   protected async crawl(_: Browser, page: Page) {
@@ -16,8 +16,8 @@ export default class comicCrawler extends baseCrawler {
       await this.search(page, comic)
       await this.crawlDetail(page, comic)
     }
-    console.log("===========ScrapedData===============")
-    console.log(this.scrapedData)
+    console.log("===========ScrapedData===============");
+    console.log(this.scrapedData);
     console.log('============end=============');
   }
 
@@ -42,8 +42,8 @@ export default class comicCrawler extends baseCrawler {
   }
 
   private async fetch(page: Page, comic: any): Promise<ScrapedData> {
-    const detailPageUrl = page.url()
-    const targetSelector = selector.newChapterInfo.replace('_ID', comic.id)
+    const detailPageUrl = page.url();
+    const targetSelector = selector.newChapterInfo.replace('_ID', comic.id);
     const newChapter = await page.$(targetSelector);
     //TODO:クラスにするかメソッド化する
     const chapterTitle = await page.evaluate(elm => elm.textContent, newChapter);
@@ -64,4 +64,4 @@ export default class comicCrawler extends baseCrawler {
   }
 }
 
-new comicCrawler(options).run();
+new comicCrawler().run();

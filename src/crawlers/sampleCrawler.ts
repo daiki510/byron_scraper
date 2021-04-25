@@ -1,7 +1,6 @@
 import { Browser } from 'puppeteer';
 import { Page } from 'puppeteer';
 import { baseCrawler } from './baseCrawler';
-const options = { headless: true }
 
 export default class sampleCrawler extends baseCrawler {
   protected async crawl(_: Browser, page: Page) {
@@ -13,4 +12,4 @@ export default class sampleCrawler extends baseCrawler {
   }
 }
 
-new sampleCrawler(options).run();
+new sampleCrawler().run();

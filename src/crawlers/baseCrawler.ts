@@ -1,18 +1,19 @@
 import puppeteer, { Browser, Page } from 'puppeteer';
 import { ScrapedData } from './types';
+import { args } from '../LaunchOption';
 const screenSize = {width: 1920, height: 1080};
 
 export abstract class baseCrawler {
     //TODO:オプション機能は別ファイルでおこなう
-    private options: object;
     protected scrapedData: ScrapedData[] = [];
-
-    constructor(options: object){
-        this.options = options;
-    }
-
+    private options = {
+        headless: !args().headful,
+        slowMo: args().slowMotion,
+    };
+    
     async run(): Promise<void> {
         console.log('============start_base=============')
+        console.log(this.options)
         const browser = await puppeteer.launch(this.options);
         try {
             const _page = await browser.newPage();
