@@ -1,7 +1,9 @@
 import puppeteer, { Browser, Page } from 'puppeteer';
 import { ScrapedData } from './types';
 import { options } from '../LaunchOption';
-const screenSize = {width: 1920, height: 1080};
+const screenSize = {
+    width: 1920,height: 1080
+};
 
 export abstract class baseCrawler {
     protected scrapedData: ScrapedData[] = [];

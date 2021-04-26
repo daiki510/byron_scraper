@@ -5,7 +5,6 @@ import { ScrapedData } from './types';
 import selector from './comicSelector';
 import ComicList from './comicList';
 import { Utils } from '../utils/index';
-// const options = { headless: true }
 
 export default class comicCrawler extends baseCrawler {
   protected async crawl(_: Browser, page: Page) {
