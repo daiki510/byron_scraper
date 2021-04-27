@@ -1,4 +1,5 @@
 import puppeteer, { Browser, Page } from 'puppeteer';
+import { Logger, LogMessages } from '../logger';
 import { ScrapedData } from './types';
 import { options } from '../LaunchOption';
 const screenSize = {
@@ -7,9 +8,14 @@ const screenSize = {
 
 export abstract class baseCrawler {
     protected scrapedData: ScrapedData[] = [];
+    protected logger: Logger;
+
+    constructor() {
+        this.logger = Logger.build();
+    }
     
     async run(): Promise<void> {
-        console.log('============start_base=============')
+        this.logger.info(LogMessages.Info.処理開始('漫画サイト'))
         const browser = await puppeteer.launch(options);
         try {
             const _page = await browser.newPage();
@@ -21,7 +27,7 @@ export abstract class baseCrawler {
         } finally {
             await browser.close();
         }
-        console.log('============end_base=============')
+        this.logger.info(LogMessages.Info.処理終了('漫画サイト'))
     }
 
     protected abstract crawl(browser: Browser, page: Page): any;

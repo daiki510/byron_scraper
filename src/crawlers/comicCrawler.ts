@@ -5,19 +5,19 @@ import { ScrapedData } from './types';
 import selector from './comicSelector';
 import ComicList from './comicList';
 import { Utils } from '../utils/index';
+import { LogMessages } from '../logger';
 
 export default class comicCrawler extends baseCrawler {
   protected async crawl(_: Browser, page: Page) {
-    console.log('============start=============');
     const url = 'https://manga1000.com/';
     await page.goto(url, { waitUntil: 'networkidle0' });
     for (let comic of ComicList) {
+      this.logger.info(LogMessages.Info.処理開始(comic.title))
       await this.search(page, comic)
       await this.crawlDetail(page, comic)
+      this.logger.info(LogMessages.Info.処理終了(comic.title))
     }
-    console.log("===========ScrapedData===============");
-    console.log(this.scrapedData);
-    console.log('============end=============');
+    this.logger.debug('ScrapedData',this.scrapedData);
   }
 
   private async search(page: Page, comic: any): Promise<void> {
@@ -41,13 +41,12 @@ export default class comicCrawler extends baseCrawler {
   }
 
   private async fetch(page: Page, comic: any): Promise<ScrapedData> {
+    this.logger.info(LogMessages.Info.処理中(comic.title))
     const detailPageUrl = page.url();
     const targetSelector = selector.newChapterInfo.replace('_ID', comic.id);
     const newChapter = await page.$(targetSelector);
     //TODO:クラスにするかメソッド化する
     const chapterTitle = await page.evaluate(elm => elm.textContent, newChapter);
-    console.log("============text==============");
-    console.log(chapterTitle);
     await Promise.all([
       page.click(targetSelector),
       page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 10000 })
