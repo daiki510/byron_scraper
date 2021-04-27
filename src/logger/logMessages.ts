@@ -4,4 +4,8 @@ class Info {
   static 処理中 = (name: string): string => `処理中:${name}`;
 }
 
-export { Info }
+class Error {
+  static 異常終了 = 'スクレイパーが異常終了しました';
+}
+
+export { Info, Error }

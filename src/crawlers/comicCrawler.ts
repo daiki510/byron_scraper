@@ -1,7 +1,7 @@
 import { Browser } from 'puppeteer';
 import { Page } from 'puppeteer';
 import { baseCrawler } from './baseCrawler';
-import { ScrapedData } from './types';
+import { ScrapedData } from '../../types';
 import selector from './comicSelector';
 import ComicList from './comicList';
 import { Utils } from '../utils/index';

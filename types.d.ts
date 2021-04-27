@@ -5,3 +5,8 @@ export type ScrapedData = {
   chapterUrl: string,
   chapterOrg: string
 }
+
+export type ErrMsg = {
+  msg: string;
+  detail: unknown;
+}

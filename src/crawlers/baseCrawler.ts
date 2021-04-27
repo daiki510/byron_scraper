@@ -1,6 +1,6 @@
 import puppeteer, { Browser, Page } from 'puppeteer';
 import { Logger, LogMessages } from '../logger';
-import { ScrapedData } from './types';
+import { ScrapedData } from '../../types';
 import { options } from '../LaunchOption';
 const screenSize = {
     width: 1920,height: 1080
@@ -22,8 +22,10 @@ export abstract class baseCrawler {
             await _page.setViewport(screenSize);
             await this.crawl(browser, _page);
         } catch (error) {
-            console.log('============error=============')
-            console.log(error)
+            this.logger.error({
+                msg: LogMessages.Error.異常終了,
+                detail: error,
+            })
         } finally {
             await browser.close();
         }
