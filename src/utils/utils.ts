@@ -1,5 +1,5 @@
-export const fetchNumber = (chpaterTitle: string): string => {
+export const fetchNumber = (chapterTitle: string): string => {
   const regex = /(?<=【第)(.+)(?=話】)/g;
-  const chapterNumber = chpaterTitle.match(regex);
+  const chapterNumber = chapterTitle.match(regex);
   return chapterNumber ? chapterNumber[0] : '';
 }
