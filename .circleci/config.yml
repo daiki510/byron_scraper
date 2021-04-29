@@ -6,8 +6,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys:
-          - dependencies-cache-{{ checksum "package.json" }}
+          key: dependencies-cache-{{ checksum "package.json" }}
       - run: npm install
       - save_cache:
           paths:
@@ -19,7 +18,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: dependencies-cache-{{ checksum "package.json" }}
+          key: dependencies-cache-{{ checksum "package.json" }}
       - run: 
           name: install dependencies
           command: npm install
