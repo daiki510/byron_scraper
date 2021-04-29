@@ -11,8 +11,9 @@ jobs:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
       - run: npm install
+      - run: pwd
       - store_artifacts:
-          path: ~/tsconfig.json
+          path: tsconfig.json
       - save_cache:
           paths:
             - node_modules
