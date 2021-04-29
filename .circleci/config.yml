@@ -7,7 +7,7 @@ commands:
   restore_modules:
     steps:
       - restore_cache:
-        key: dependencies-cache-{{ checksum "package.json" }}
+          key: dependencies-cache-{{ checksum "package.json" }}
   save_modules:
     steps:
       - save_cache:
