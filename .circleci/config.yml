@@ -1,28 +1,41 @@
 version: 2.1
-jobs:
-  build:
+executors:
+  node:
     docker:
       - image: circleci/node:14.15.1
+commands:
+  restore_modules:
     steps:
-      - checkout
       - restore_cache:
-          key: dependencies-cache-{{ checksum "package.json" }}
-      - run: npm install
+        key: dependencies-cache-{{ checksum "package.json" }}
+  save_modules:
+    steps:
       - save_cache:
+          key:  dependencies-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
-          key: dependencies-cache-{{ checksum "package.json" }}
-  test:
-    docker:
-      - image: circleci/node:14.15.1
+
+jobs:
+  build:
+    executor: node
     steps:
       - checkout
-      - restore_cache:
-          key: dependencies-cache-{{ checksum "package.json" }}
+      - restore_modules
+      - run:
+          name: install dependencies
+          command: npm install
+      - save_modules
+  test:
+    executor: node
+    steps:
+      - checkout
+      - restore_modules
       - run: 
           name: install dependencies
           command: npm install
-      - run: npm test
+      - run: 
+          name: unit test
+          command: npm test
 workflows:
   version: 2
   build_and_test:
