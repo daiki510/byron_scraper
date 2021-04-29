@@ -19,11 +19,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys:
-          - dependencies-cache-{{ checksum "package.json" }}
+          keys: dependencies-cache-{{ checksum "package.json" }}
       - run: 
-        name: install dependencies
-        command: npm install
+          name: install dependencies
+          command: npm install
       - run: npm test
 workflows:
   version: 2
