@@ -7,13 +7,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
+          - dependencies-cache-{{ checksum "package.json" }}
       - run: npm install
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: dependencies-cache-{{ checksum "package.json" }}
   test:
     docker:
       - image: circleci/node:14.15.1
@@ -21,13 +20,10 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - run: npm install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          - dependencies-cache-{{ checksum "package.json" }}
+      - run: 
+        name: install dependencies
+        command: npm install
       - run: npm test
 workflows:
   version: 2
