@@ -1,3 +1,5 @@
+<a href="https://codeclimate.com/github/daiki510/byron_scraper/maintainability"><img src="https://api.codeclimate.com/v1/badges/219d7dcf989f190f2bc1/maintainability" /></a>
+<a href="https://codeclimate.com/github/daiki510/byron_scraper/test_coverage"><img src="https://api.codeclimate.com/v1/badges/219d7dcf989f190f2bc1/test_coverage" /></a>
 # スクレイパー開発
 ## 概要
 漫画サイトをクローリングして、最新話を取得する
