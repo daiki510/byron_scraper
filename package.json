@@ -9,7 +9,7 @@
     "watch": "tsc --watch",
     "dev": "ts-node",
     "dev:watch": "ts-node-dev --raspawn",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
