@@ -1,3 +1,3 @@
 import * as Utils from './Utils';
 
-export { Utils }
+export { Utils };
