@@ -3,9 +3,9 @@ export default {
     "ts",
     "js"
   ],
-  "moduleNameMapper": {
-    '^@/(.+)': '<rootDir>/src/$1'
-  },
+  // "moduleNameMapper": {
+  //   '^@/(.+)': '<rootDir>/src/$1'
+  // },
   "transform": {
     "^.+\\.ts$": "ts-jest"
   },

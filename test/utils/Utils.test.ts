@@ -1,5 +1,5 @@
-import * as Utils from '../../src/utils/Utils';
-// import * as Utils from '@/utils/Utils';
+// import * as Utils from '../../src/utils/Utils';
+import * as Utils from '@/utils/Utils';
 
 describe('fetchNumber', (): void => {
   test('should return a chapter number', (): void => {
