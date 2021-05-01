@@ -10,3 +10,8 @@ export type ErrMsg = {
   msg: string;
   detail: unknown;
 }
+
+export type comicInfo = {
+  title: string;
+  id: string;
+}

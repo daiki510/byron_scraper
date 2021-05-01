@@ -1,9 +1,10 @@
 import { Browser } from 'puppeteer';
 import { Page } from 'puppeteer';
 import { baseCrawler } from './baseCrawler';
-import { ScrapedData } from '../../types';
+// import { ScrapedData } from '../../types';
+import * as Type from '../../types';
 import selector from './comicSelector';
-import ComicList from './comicList';
+import { ComicList } from './comicList';
 import { Utils } from '../utils/index';
 import { LogMessages } from '../logger';
 
@@ -13,14 +14,16 @@ export default class comicCrawler extends baseCrawler {
     await page.goto(url, { waitUntil: 'networkidle0' });
     for (let comic of ComicList) {
       this.logger.info(LogMessages.Info.処理開始(comic.title))
+      //対象漫画の検索
       await this.search(page, comic)
+      //対象漫画の詳細ページ収集
       await this.crawlDetail(page, comic)
       this.logger.info(LogMessages.Info.処理終了(comic.title))
     }
     this.logger.debug('ScrapedData',this.scrapedData);
   }
 
-  private async search(page: Page, comic: any): Promise<void> {
+  private async search(page: Page, comic: Type.comicInfo): Promise<void> {
     //対象漫画の検索
     await page.type(selector.searchForm, comic.title);
     //検索ボタンのクリック
@@ -35,12 +38,12 @@ export default class comicCrawler extends baseCrawler {
     ]);
   }
 
-  private async crawlDetail(page: Page, comic: any): Promise<void> {
+  private async crawlDetail(page: Page, comic: Type.comicInfo): Promise<void> {
     await this.fetch(page, comic)
       .then(async (d) => this.scrapedData.push(d));
   }
 
-  private async fetch(page: Page, comic: any): Promise<ScrapedData> {
+  private async fetch(page: Page, comic: Type.comicInfo): Promise<Type.ScrapedData> {
     this.logger.info(LogMessages.Info.処理中(comic.title))
     const detailPageUrl = page.url();
     const targetSelector = selector.newChapterInfo.replace('_ID', comic.id);
@@ -53,8 +56,8 @@ export default class comicCrawler extends baseCrawler {
     ]);
   
     return {
-      title: comic.title,
-      comicUrl: detailPageUrl,
+      title:      comic.title,
+      comicUrl:   detailPageUrl,
       chapterNum: Utils.fetchNumber(chapterTitle),
       chapterUrl: page.url(),
       chapterOrg: chapterTitle
