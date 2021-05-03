@@ -58,9 +58,9 @@ export default class comicCrawler extends baseCrawler {
     return {
       title:      comic.title,
       comicUrl:   detailPageUrl,
-      chapterNum: Utils.fetchNumber(chapterTitle),
+      chapterNo: Utils.fetchNumber(chapterTitle),
       chapterUrl: page.url(),
-      chapterOrg: chapterTitle
+      chapterTitle: chapterTitle
     }
   }
 }
