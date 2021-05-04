@@ -1,7 +1,6 @@
 import { Browser } from 'puppeteer';
 import { Page } from 'puppeteer';
 import { baseCrawler } from './baseCrawler';
-// import { ScrapedData } from '../../types';
 import * as Type from '../../types';
 import selector from './comicSelector';
 import { ComicList } from './comicList';
@@ -33,7 +32,7 @@ export default class comicCrawler extends baseCrawler {
     ]);
     //対象漫画の詳細ページ移動
     await Promise.all([
-      page.click(selector.linkDetailPage.replace('_ID', comic.id)),
+      page.click(selector.linkDetailPage.replace('_ID', String(comic.id))),
       page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 10000 })
     ]);
   }
@@ -46,7 +45,7 @@ export default class comicCrawler extends baseCrawler {
   private async fetch(page: Page, comic: Type.comicInfo): Promise<Type.ScrapedData> {
     this.logger.info(LogMessages.Info.処理中(comic.title))
     const detailPageUrl = page.url();
-    const targetSelector = selector.newChapterInfo.replace('_ID', comic.id);
+    const targetSelector = selector.newChapterInfo.replace('_ID', String(comic.id));
     const newChapter = await page.$(targetSelector);
     //TODO:クラスにするかメソッド化する
     const chapterTitle = await page.evaluate(elm => elm.textContent, newChapter);
@@ -57,6 +56,7 @@ export default class comicCrawler extends baseCrawler {
   
     return {
       title:      comic.title,
+      comicNo:   comic.id,
       comicUrl:   detailPageUrl,
       chapterNo: Utils.fetchNumber(chapterTitle),
       chapterUrl: page.url(),

@@ -1,9 +1,10 @@
 export type ScrapedData = {
   title: string,
+  comicNo: number
   comicUrl: string
-  chapterNum: string,
+  chapterNo: number,
   chapterUrl: string,
-  chapterOrg: string
+  chapterTitle: string
 }
 
 export type ErrMsg = {
@@ -13,5 +14,5 @@ export type ErrMsg = {
 
 export type comicInfo = {
   title: string;
-  id: string;
+  id: number;
 }
