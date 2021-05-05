@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { ScrapedData } from '../../types';
-import ApiURIs from './ApiURIs';
+import  { ApiURIs } from './';
 
 export default class Transmitter {
   client: AxiosInstance;

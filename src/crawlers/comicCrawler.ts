@@ -1,7 +1,7 @@
 import { Browser } from 'puppeteer';
 import { Page } from 'puppeteer';
 import { baseCrawler } from './baseCrawler';
-import Transmitter from '../tranmitter/transmitter';
+import { transmitter } from '../tranmitter';
 import * as Type from '../../types';
 import selector from './comicSelector';
 import { ComicList } from './comicList';
@@ -42,7 +42,7 @@ export default class comicCrawler extends baseCrawler {
     await this.fetch(page, comic)
       .then(async (data) => {
         //登録APIへリクエスト
-        await Transmitter.sendScrapedData(data);
+        await transmitter.sendScrapedData(data);
         return data;
       })
       .then((data) => {
@@ -57,6 +57,7 @@ export default class comicCrawler extends baseCrawler {
     const newChapter = await page.$(targetSelector);
     //TODO:クラスにするかメソッド化する
     const chapterTitle = await page.evaluate(elm => elm.textContent, newChapter);
+    //TODO:ページにアクセスしなくてもhrefURLを取得できるようにする
     await Promise.all([
       page.click(targetSelector),
       page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 10000 })
