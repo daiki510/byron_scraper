@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { ScrapedData } from '../../types';
+import { ScrapedData, apiResponse } from '../../types';
 import  { ApiURIs } from './';
 
 export default class Transmitter {
@@ -11,26 +11,38 @@ export default class Transmitter {
     this.client = axios.create({
       baseURL: 'http://127.0.0.1:10080/api',
       timeout: 180000,
-      // headers: {
-      //   Authorization: 'Bearer ' + 'YOUR_API_KEY',
-      // }
+      headers: {
+        ContentType: 'application/json',
+        // Authorization: 'Bearer ' + 'YOUR_API_KEY',
+      },
+      responseType: 'json'
     })
   }
 
-  async sendScrapedData(payload: ScrapedData): Promise<AxiosResponse | void> {
-    return await this.send(ApiURIs.COMIC, payload)
-      .catch(function (error) {
-          console.log(error)
-        })
-      .then(function () {
-          console.log ("*** 終了 ***")
-        })
+  async sendScrapedData(
+    payload: ScrapedData
+  ): Promise<apiResponse | void> {
+    const res = await this.client.post(ApiURIs.COMIC, payload)
+      .then((res) => {
+        return {
+          status: res.status,
+          chapterTitle: res.data['chapter_title'],
+          chapterUrl: res.data['chapter_url']
+        }
+      })
+      .catch((e) => { 
+        console.log(e)
+      })
+    return res
   }
 
-  private async send(
-    uri: string,
-    payload: unknown
-  ): Promise<AxiosResponse | void> {
-    return await this.client.post(uri, payload);
-  }
+  // private async send(
+  //   uri: string,
+  //   payload: unknown
+  // ): Promise<AxiosResponse | void> {
+  //   const res = await this.client.post(uri, payload);
+  //   console.log(res.data);
+  //   console.log(res.status);
+  //   return res;
+  // }
 }

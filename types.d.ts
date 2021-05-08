@@ -16,3 +16,9 @@ export type comicInfo = {
   title: string;
   id: number;
 }
+
+export type apiResponse = {
+  status: number;
+  chapterTitle: string;
+  chapterUrl: string;
+}

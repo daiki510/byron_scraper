@@ -42,7 +42,11 @@ export default class comicCrawler extends baseCrawler {
     await this.fetch(page, comic)
       .then(async (data) => {
         //登録APIへリクエスト
-        await transmitter.sendScrapedData(data);
+        await transmitter.sendScrapedData(data)
+          .then((res) => {
+            console.log("=========sendScrapedData==========")
+            console.log(res)
+          })
         return data;
       })
       .then((data) => {
