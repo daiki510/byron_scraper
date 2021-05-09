@@ -7,6 +7,11 @@ export type ScrapedData = {
   chapterTitle: string
 }
 
+export type NotifyData = {
+  chapterTitle: string
+  chapterUrl: string,
+}
+
 export type ErrMsg = {
   msg: string;
   detail: unknown;

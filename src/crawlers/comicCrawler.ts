@@ -42,11 +42,8 @@ export default class comicCrawler extends baseCrawler {
     await this.fetch(page, comic)
       .then(async (data) => {
         //登録APIへリクエスト
-        await transmitter.sendScrapedData(data)
-          .then((res) => {
-            console.log("=========sendScrapedData==========")
-            console.log(res)
-          })
+        const res = await transmitter.sendScrapedData(data)
+        this.addNotifyData(res)
         return data;
       })
       .then((data) => {
@@ -61,19 +58,26 @@ export default class comicCrawler extends baseCrawler {
     const newChapter = await page.$(targetSelector);
     //TODO:クラスにするかメソッド化する
     const chapterTitle = await page.evaluate(elm => elm.textContent, newChapter);
-    //TODO:ページにアクセスしなくてもhrefURLを取得できるようにする
-    await Promise.all([
-      page.click(targetSelector),
-      page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 10000 })
-    ]);
+    const chapterUrl = await page.evaluate(elm => elm.href, newChapter);
   
     return {
       title:        comic.title,
       comicNo:      comic.id,
       comicUrl:     detailPageUrl,
       chapterNo:    Utils.fetchNumber(chapterTitle),
-      chapterUrl:   page.url(),
+      chapterUrl:   chapterUrl,
       chapterTitle: chapterTitle
+    }
+  }
+
+  private addNotifyData(res: Type.apiResponse): void {
+    if (res.status === 200) {
+      this.notifyData.push(
+        {
+          chapterTitle: res.chapterTitle,
+          chapterUrl: res.chapterUrl
+        }
+      )
     }
   }
 }

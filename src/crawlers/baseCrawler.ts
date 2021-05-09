@@ -1,6 +1,6 @@
 import puppeteer, { Browser, Page } from 'puppeteer';
 import { Logger, LogMessages } from '../logger';
-import { ScrapedData } from '../../types';
+import { ScrapedData, NotifyData } from '../../types';
 import { options } from '../LaunchOption';
 const screenSize = {
     width: 1920,height: 1080
@@ -8,6 +8,7 @@ const screenSize = {
 
 export abstract class baseCrawler {
     protected scrapedData: ScrapedData[] = [];
+    protected notifyData: NotifyData[] = [];
     protected logger: Logger;
 
     constructor() {
@@ -21,6 +22,9 @@ export abstract class baseCrawler {
             const _page = await browser.newPage();
             await _page.setViewport(screenSize);
             await this.crawl(browser, _page);
+            //TODO:LINEへ通知
+            console.log("=========this.notifyData=========")
+            console.log(this.notifyData)
         } catch (error) {
             this.logger.error({
                 msg: LogMessages.Error.異常終了,

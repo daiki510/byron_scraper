@@ -21,7 +21,8 @@ export default class Transmitter {
 
   async sendScrapedData(
     payload: ScrapedData
-  ): Promise<apiResponse | void> {
+  ): Promise<apiResponse> {
+    //TODO:例外処理を入れる(型にvoidを追加するとレスポンスに対する処理がうまくいかない)
     const res = await this.client.post(ApiURIs.COMIC, payload)
       .then((res) => {
         return {
@@ -30,9 +31,9 @@ export default class Transmitter {
           chapterUrl: res.data['chapter_url']
         }
       })
-      .catch((e) => { 
-        console.log(e)
-      })
+      // .catch((e) => { 
+      //   console.log(e)
+      // })
     return res
   }
 
