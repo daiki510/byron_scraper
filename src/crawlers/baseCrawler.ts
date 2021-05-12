@@ -2,6 +2,7 @@ import puppeteer, { Browser, Page } from 'puppeteer';
 import { Logger, LogMessages } from '../logger';
 import { ScrapedData, NotifyData } from '../../types';
 import { options } from '../LaunchOption';
+import LineNotify from '../notificatoin/lineNotify';
 const screenSize = {
     width: 1920,height: 1080
 };
@@ -21,10 +22,11 @@ export abstract class baseCrawler {
         try {
             const _page = await browser.newPage();
             await _page.setViewport(screenSize);
+            //サイト内クローリング
             await this.crawl(browser, _page);
-            //TODO:LINEへ通知
-            console.log("=========this.notifyData=========")
-            console.log(this.notifyData)
+            //LINEへ通知
+            this.logger.info(LogMessages.Info.処理中('LINEへ通知'))
+            new LineNotify().notify(this.notifyData);
         } catch (error) {
             this.logger.error({
                 msg: LogMessages.Error.異常終了,

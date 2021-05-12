@@ -71,7 +71,7 @@ export default class comicCrawler extends baseCrawler {
   }
 
   private addNotifyData(res: Type.apiResponse): void {
-    if (res.status === 200) {
+    if (res.status === 201) {
       this.notifyData.push(
         {
           chapterTitle: res.chapterTitle,
