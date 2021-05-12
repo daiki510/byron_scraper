@@ -35,6 +35,8 @@ export default class LineNotify {
   }
 
   generateMessage(notifyData: NotifyData[]): string {
+    if (notifyData.length === 0) return 'No Chapters';
+  
     const message = notifyData.reduce((prev, current, index, array) => {
       const chapter = `Title：${current.chapterTitle}\URL：${current.chapterUrl}\n`
       return prev + '\n' + chapter
