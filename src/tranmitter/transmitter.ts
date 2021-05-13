@@ -1,10 +1,12 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { ScrapedData, apiResponse } from '../../types';
 import  { ApiURIs } from './';
+import { Logger, LogMessages } from '../logger';
 
 export default class Transmitter {
-  client: AxiosInstance;
-  //TODO:ログ出力
+  private client: AxiosInstance;
+  private logger: Logger;
+
   //TODO:API認証
   //TODO:レスポンスに対しても型定義する検討
   constructor() {
@@ -16,7 +18,8 @@ export default class Transmitter {
         // Authorization: 'Bearer ' + 'YOUR_API_KEY',
       },
       responseType: 'json'
-    })
+    }),
+    this.logger = Logger.build();
   }
 
   async sendScrapedData(
@@ -25,25 +28,13 @@ export default class Transmitter {
     //TODO:例外処理を入れる(型にvoidを追加するとレスポンスに対する処理がうまくいかない)
     const res = await this.client.post(ApiURIs.COMIC, payload)
       .then((res) => {
+        this.logger.info(LogMessages.Info.成功('APIリクエスト', res.status))
         return {
           status: res.status,
           chapterTitle: res.data['chapter_title'],
           chapterUrl: res.data['chapter_url']
         }
       })
-      // .catch((e) => { 
-      //   console.log(e)
-      // })
     return res
   }
-
-  // private async send(
-  //   uri: string,
-  //   payload: unknown
-  // ): Promise<AxiosResponse | void> {
-  //   const res = await this.client.post(uri, payload);
-  //   console.log(res.data);
-  //   console.log(res.status);
-  //   return res;
-  // }
 }

@@ -26,7 +26,7 @@ export abstract class baseCrawler {
             await this.crawl(browser, _page);
             //LINEへ通知
             this.logger.info(LogMessages.Info.処理中('LINEへ通知'))
-            new LineNotify().notify(this.notifyData);
+            await new LineNotify().notify(this.notifyData);
         } catch (error) {
             this.logger.error({
                 msg: LogMessages.Error.異常終了,

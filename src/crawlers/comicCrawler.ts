@@ -43,7 +43,7 @@ export default class comicCrawler extends baseCrawler {
       .then(async (data) => {
         //登録APIへリクエスト
         const res = await transmitter.sendScrapedData(data)
-        this.addNotifyData(res)
+        if (res.status === 201) this.addNotifyData(res)
         return data;
       })
       .then((data) => {
@@ -71,14 +71,12 @@ export default class comicCrawler extends baseCrawler {
   }
 
   private addNotifyData(res: Type.apiResponse): void {
-    if (res.status === 201) {
-      this.notifyData.push(
-        {
-          chapterTitle: res.chapterTitle,
-          chapterUrl: res.chapterUrl
-        }
-      )
-    }
+    this.notifyData.push(
+      {
+        chapterTitle: res.chapterTitle,
+        chapterUrl: res.chapterUrl
+      }
+    )
   }
 }
 

@@ -2,13 +2,16 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import qs from 'querystring';
 import { load } from 'ts-dotenv';
 import { NotifyData } from '../../types';
+import { Logger, LogMessages } from '../logger';
 
 const env = load({
   LINE_TOKEN: String,
 });
 
 export default class LineNotify {
-  client: AxiosInstance;
+  private client: AxiosInstance;
+  private logger: Logger;
+
   constructor() {
     this.client = axios.create({
       baseURL: 'https://notify-api.line.me',
@@ -16,21 +19,24 @@ export default class LineNotify {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': `Bearer ${env.LINE_TOKEN}`
       },
-    })
+    }),
+    this.logger = Logger.build();
   }
 
-  //TODO:ログ出力
-  notify(notifyData: NotifyData[]): AxiosResponse | void {
+  async notify(notifyData: NotifyData[]): Promise<void> {
     const url = '/api/notify';
     const data = qs.stringify({
         message: this.generateMessage(notifyData),
     })
-    const res = this.client.post(url, data)
+    await this.client.post(url, data)
       .then((res) => {
-        console.log(res.status);
+        this.logger.info(LogMessages.Info.成功('LINE通知', res.status))
       })
       .catch((e) => { 
-        console.log(e)
+        this.logger.error({
+          msg: LogMessages.Error.失敗('LINE通知'),
+          detail: e,
+        })
       })
   }
 
