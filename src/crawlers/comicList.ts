@@ -11,4 +11,5 @@ export const ComicList: comicInfo[] = [
   {title: 'ブルーロック', id: 5387},
   {title: '高校事変', id: 464220},
   {title: '東京卍リベンジャーズ', id: 3975},
+  {title: 'ダーウィンズゲーム', id: 21737},
 ]
