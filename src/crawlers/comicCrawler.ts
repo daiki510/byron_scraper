@@ -16,7 +16,7 @@ export default class comicCrawler extends baseCrawler {
       this.logger.info(LogMessages.Info.処理開始(comic.title));
       //対象漫画の検索
       await this.search(page, comic);
-      //対象漫画の詳細ページ収集
+      //対象漫画の詳細ページ収集  
       await this.crawlDetail(page, comic)
       this.logger.info(LogMessages.Info.処理終了(comic.title));
     }
