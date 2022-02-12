@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  webserver:
+    build: ./
+    image: node-scraper:1.0
+    container_name: byron_scraper
+    tty: true
+    volumes:
+      - ./:/app/
+    ports:
+      - "8080:3001"

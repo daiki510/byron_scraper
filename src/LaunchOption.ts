@@ -14,4 +14,8 @@ export const args = (): Args =>
 export const options = {
   headless: !args().headful,
   slowMo: args().slowMotion,
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox'
+  ]
 };
